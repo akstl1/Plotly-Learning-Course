@@ -49,7 +49,8 @@ def callback_graph(hoverData):
     v_index = hoverData['points'][0]['pointIndex']
     figure = {'data':[go.Scatter(x=[0,1],
                       y=[0,60/df.iloc[v_index]['acceleration']],
-                      mode='lines'
+                      mode='lines',
+                      line={'width':2*df.iloc[v_index]['cylinders']}
     )],
                 'layout':go.Layout(title=df.iloc[v_index]['name'],
                                     xaxis={'visible':False},
@@ -58,7 +59,7 @@ def callback_graph(hoverData):
                                     height=300)}
     return figure
 
-@app.callback(Output('mpg_stats','children'),
+@app.callback(Output('mpg-stats','children'),
             [Input('mpg-scatter', 'hoverData')])
 def callback_stats(hoverData):
     v_index = hoverData['points'][0]['pointIndex']
@@ -68,6 +69,7 @@ def callback_stats(hoverData):
     0 to 60mpn in {} seconds
     """.format(df.iloc[v_index]['cylinders'],df.iloc[v_index]['displacement'],df.iloc[v_index]['acceleration'])
 
+    return stats
 
 if __name__ == '__main__':
     app.run_server()
